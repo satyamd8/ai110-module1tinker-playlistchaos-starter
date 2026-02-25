@@ -187,41 +187,49 @@ def profile_sidebar():
     """Render and update the user profile."""
     st.sidebar.header("Mood profile")
 
+    # Use session_state keys for all profile fields
     profile = st.session_state.profile
 
-    profile["name"] = st.sidebar.text_input(
+    st.session_state.profile["name"] = st.sidebar.text_input(
         "Profile name",
         value=str(profile.get("name", "")),
+        key="profile_name"
     )
 
     col1, col2 = st.sidebar.columns(2)
     with col1:
-        profile["hype_min_energy"] = st.sidebar.slider(
+        st.session_state.profile["hype_min_energy"] = st.sidebar.slider(
             "Hype min energy",
             min_value=1,
             max_value=10,
             value=int(profile.get("hype_min_energy", 7)),
+            key="profile_hype_min_energy"
         )
     with col2:
-        profile["chill_max_energy"] = st.sidebar.slider(
+        st.session_state.profile["chill_max_energy"] = st.sidebar.slider(
             "Chill max energy",
             min_value=1,
             max_value=10,
             value=int(profile.get("chill_max_energy", 3)),
+            key="profile_chill_max_energy"
         )
 
-    profile["favorite_genre"] = st.sidebar.selectbox(
+    st.session_state.profile["favorite_genre"] = st.sidebar.selectbox(
         "Favorite genre",
         options=["rock", "lofi", "pop", "jazz", "electronic", "ambient", "other"],
         index=0,
+        key="profile_favorite_genre"
     )
 
-    profile["include_mixed"] = st.sidebar.checkbox(
+    # Use key to bind checkbox directly to session_state
+    st.sidebar.checkbox(
         "Include Mixed playlist in views",
         value=bool(profile.get("include_mixed", True)),
+        key="include_mixed"
     )
+    st.session_state.profile["include_mixed"] = st.session_state.include_mixed
 
-    st.sidebar.write("Current profile:", profile["name"])
+    st.sidebar.write("Current profile:", st.session_state.profile["name"])
 
 
 def add_song_sidebar():
