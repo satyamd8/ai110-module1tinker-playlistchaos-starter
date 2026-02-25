@@ -187,49 +187,46 @@ def profile_sidebar():
     """Render and update the user profile."""
     st.sidebar.header("Mood profile")
 
-    # Use session_state keys for all profile fields
     profile = st.session_state.profile
 
-    st.session_state.profile["name"] = st.sidebar.text_input(
+    profile["name"] = st.sidebar.text_input(
         "Profile name",
         value=str(profile.get("name", "")),
-        key="profile_name"
+        key="profile_name",
     )
 
     col1, col2 = st.sidebar.columns(2)
     with col1:
-        st.session_state.profile["hype_min_energy"] = st.sidebar.slider(
+        profile["hype_min_energy"] = st.slider(
             "Hype min energy",
             min_value=1,
             max_value=10,
             value=int(profile.get("hype_min_energy", 7)),
-            key="profile_hype_min_energy"
+            key="profile_hype_min_energy",
         )
     with col2:
-        st.session_state.profile["chill_max_energy"] = st.sidebar.slider(
+        profile["chill_max_energy"] = st.slider(
             "Chill max energy",
             min_value=1,
             max_value=10,
             value=int(profile.get("chill_max_energy", 3)),
-            key="profile_chill_max_energy"
+            key="profile_chill_max_energy",
         )
 
-    st.session_state.profile["favorite_genre"] = st.sidebar.selectbox(
+    profile["favorite_genre"] = st.sidebar.selectbox(
         "Favorite genre",
         options=["rock", "lofi", "pop", "jazz", "electronic", "ambient", "other"],
         index=0,
-        key="profile_favorite_genre"
+        key="profile_favorite_genre",
     )
 
-    # Use key to bind checkbox directly to session_state
-    st.sidebar.checkbox(
+    profile["include_mixed"] = st.sidebar.checkbox(
         "Include Mixed playlist in views",
         value=bool(profile.get("include_mixed", True)),
-        key="include_mixed"
+        key="include_mixed",
     )
-    st.session_state.profile["include_mixed"] = st.session_state.include_mixed
 
-    st.sidebar.write("Current profile:", st.session_state.profile["name"])
+    st.sidebar.write("Current profile:", profile["name"])
 
 
 def add_song_sidebar():
